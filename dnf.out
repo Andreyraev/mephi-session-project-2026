@@ -1,0 +1,7 @@
+Иденти | Командная строка                                                                                          | Дата и время     | Действия       | Изменен
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+     5 | install -y policycoreutils policycoreutils-python-utils selinux-policy-targeted                           | 2026-09-29 10:17 | Install        |    8   
+     4 | install ./tcpdump-4.99.5-1.red80.i686.rpm ./tcpdump-4.99.5-1.red80.x86_64.rpm                             | 2026-09-29 09:15 | Install        |   12   
+     3 | install -y nginx libcap-ng-utils                                                                          | 2026-09-29 09:13 | Install        |    9   
+     2 | update -y                                                                                                 | 2026-09-29 09:11 | I, O, U        |   93 E<
+     1 |                                                                                                           | 2026-09-28 20:54 | Install        |  558 >E

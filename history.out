@@ -1,0 +1,175 @@
+    1  history
+    2  poweroff
+    3  nano /etc/default/grub 
+    4  poweroff
+    5  ip addr show
+    6  nmcli connection up enp0s3 
+    7  hostnamectl
+    8  ping -c 4 8.8.8.8 > ~/ping.out
+    9  cat ~/ping.out
+   10  sudo dnf update -y
+   11  sudo dnf install -y nginx libcap-ng-utils
+   12  cd /tmp
+   13  sudo dnf download tcpdump
+   14  sudo rpm -ivh tcpdump-*.rpm
+   15  sudo dnf install ./tcpdump-*.rpm
+   16  dnf history > ~/dnf.out
+   17  sudo parted /dev/sdb mklabel msdos
+   18  sudo parted /dev/sdb mkpart primary ext4 0% 100%
+   19  sudo mkfs.ext4 MEPHI_WEB /dev/sdb1
+   20  lsblk
+   21  partprobe /dev/sdb
+   22  lsblk /dev/sdb
+   23  mkfs.ext4 -L MEPHI_WEB /dev/sdb1
+   24  blkid /dev/sdb1
+   25  cd
+   26  mkdir /mephi-web
+   27  echo 'LABEL=MEPHI-WEB /mephi-web ext4 defaults 0 2' >> /etc/fstab
+   28  cat /etc/fstab
+   29  systemctl daemon-reload
+   30  mount /mephi-web
+   31  blkid
+   32  e2label /dev/sdb1 MEPHI_WEB
+   33  mount /mephi-web
+   34  mount /mephi_web
+   35  mkfs.ext4 -L MEPHI_WEB /dev/sdb1
+   36  cat /etc/fstab
+   37  blkid /dev/sdb1
+   38  systemctl daemon-reload
+   39  mount -a
+   40  findmint /mephi-web
+   41  findmnt /mephi_web
+   42  mount -a
+   43  blkid
+   44  lsblk -f
+   45  e2label /dev/sdb1 MEPHI_WEB
+   46  file -s /dev/sdb1
+   47  sed -i 's/MEPHI-WEB/MEPHI_WEB/' /etc/fstab
+   48  cat /etc/fstab
+   49  systemctl daemon-reload
+   50  mount -a
+   51  findmnt /mephi-web
+   52  df -h /mephi-web
+   53  grep -n'^PASS_MAX_DAYS' /etc/login.defs
+   54  grep -n '^PASS_MAX_DAYS' /etc/login.defs
+   55  sed -i 's/^PASS_MAX_DAYS.*/PASS_MAX_DAYS 90/' /etc/login.defs
+   56  grep -n '^PASS_MAX_DAYS' /etc/login.defs
+   57  grep -n 'minlen' /etc/security/pwquality.conf
+   58  sed -i 's/^#\?[[::space:]]*minlen.*/minlen = 12/' /etc/security/pwquality.conf
+   59  sed -i 's/^#\?[[::space:]]*minlen.*/minlen=12/' /etc/security/pwquality.conf
+   60  sed -i 's/^#\?[[:space:]]*minlen.*/minlen=12/' /etc/security/pwquality.conf
+   61  grep -n 'minlen' /etc/security/pwquality.conf
+   62  grep pwquality /etc/pam.d/system-auth /etc/pam.d/password-auth 2>/dev/null
+   63  ip -br a
+   64  systemctl enable --now sshd
+   65  systemctl status sshd --no-pager
+   66  sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+   67  systemctl restart sshd
+   68  ausearch -m avc -ts recent | grep sshd
+   69  getenforce
+   70  cat /etc/hosts.allow /etc/hosts.deny 2>/dev/null
+   71  sshd -t
+   72  cat /etc/ssh/sshd_config | grep -i permitrootlogin
+   73  journalctl -u sshd -f
+   74  cat /etc/hosts.deny 2>/dev/null
+   75  cat /etc/hosts.allow 2>/dev/null
+   76  systemctl status fail2ban --no-pager 2>/dev/null
+   77  fail2ban-client status sshd 2>/dev/null
+   78  journalctl -u sshd -f
+   79  ss -tlnp | grep :22
+   80  ssh -v root@localhost
+   81  ss -tlnp | grep :22
+   82  groupadd -g 4444 curators
+   83  groupadd developers
+   84  getent group curators developers
+   85  useradd -u 5501 -G developers user1
+   86  useradd -u 5502 -G developers user2
+   87  useradd -u 5503 -G developers user3
+   88  useradd -G curators curator1
+   89  useradd -G curators curator2
+   90  passwd user1
+   91  passwd user2
+   92  passwd user3
+   93  passwd curator1
+   94  passwd curator2
+   95  chage -l user1
+   96  dnf install -y acl
+   97  mkdir -p /data/mephi-2026
+   98  chown root:developers /data/mephi-2026/
+   99  chmod 2770 /data/mephi-2026
+  100  setfacl -R -m g:developers:rwx,g:curators:rx,o::--- /data/mephi-2026/
+  101  setfacl -R -d -m g:developers:rwx,g:curators:rx,o::--- /data/mephi-2026/
+  102  getfacl /data/mephi-2026
+  103  sudo -u user1 sh -c 'echo "from user1" > /data/mephi-2026/f1.txt'
+  104  sudo -u user2 sh -c 'echo "from user2" >> /data/mepho-2026/f1.txt' && echo "user2 write OK"
+  105  sudo -u user2 sh -c 'echo "from user2" >> /data/mephi-2026/f1.txt' && echo "user2 write OK"
+  106  sudo -u user3 cat /data/mephi-2026/f1.txt 
+  107  sudo -u curator1 cat /data/mephi-2026/f1.txt && echo "curator read OK"
+  108  sudo -u curator1 sh -c 'echo x >> /data/mephi-2026/f1.txt'
+  109  sudo -u nobody ls /data/mephi 2026
+  110  sudo -u nobody cat /data/mephi-2026/f1.txt 
+  111  ls -l /data/mephi-2026
+  112  getfactl /data/mephi-2026/f1.txt
+  113  getfacl /data/mephi-2026/f1.txt
+  114  rm -f /data/mephi-2026/f1.txt
+  115  which tcpdump
+  116  ls -l /usr/sbin/tcpdump
+  117  chmod u-s /usr/sbin/tcpdump
+  118  chmod 755 /usr/sbin/tcpdump
+  119  setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+  120  getcap /usr/sbin/tcpdump
+  121  sudo -u user1 tcpdump -c 3 -i any
+  122  getenforce
+  123  sestatus
+  124  fnd install -y policycoreutils policycoreutils-python-utils selinux-policy-targeted
+  125  dnf install -y policycoreutils policycoreutils-python-utils selinux-policy-targeted
+  126  grep -n 'root' /etc/nginx/nginx.conf
+  127  cp /etc/nginx/nginx.conf /etc/nginx/nginx/conf.bak
+  128  cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+  129  sed -i 's#root[[:space:]]*/usr/share/nginx/html;#root   /mephi-web;#' /etc/nginx/nginx.conf
+  130  grep -n 'root' /etc/nginx/nginx.conf
+  131  nginx -t
+  132  seamanage fcontext -a -t httpd_sys_content_t "/mephi-web(/.*)?"
+  133  semanage fcontext -a -t httpd_sys_content_t "/mephi-web(/.*)?"
+  134  restorecon -Rv /mephi-web
+  135  chmod 755 /mephi-web
+  136  ls -dZ /mephi-web
+  137  systemctl enable --now nginx
+  138  systemctl status nginx --no-pager
+  139  systemctl is-enabled nginx
+  140  systemctl is-active nginx
+  141  systemctl restart nginx
+  142  cp /etc/pam.d/login /etc/pam.d/login .bak
+  143  cp /etc/pam.d/login /etc/pam.d/login.bak
+  144  cat /etc/pam.d/login
+  145  sudo nano /etc/pam.d/login
+  146  grep -n 'account' /etc/pam.d/login
+  147  echo "Hello from Student: 372311" > /mephi-web/index.html
+  148  chmod 644 /mephi-web/index.html 
+  149  restorecon -Rv /mephi-web/
+  150  ls --lZ /mephi-web/index.html 
+  151  ls -lZ /mephi-web/index.html 
+  152  cat /mephi-web/index.html 
+  153  systemctl restart nginx
+  154  curl http://localhost
+  155  cd ~
+  156  ping -c 4 8.8.8.8 > ~/ping.out
+  157  stat /data/mephi-2026 > ~/stat.out
+  158  getcap /usr/sbin/tcpdump > ~/getcap.out
+  159  dnf history > ~/dnf.out
+  160  journalctl -u nginx -b > ~journalctl.out
+  161  getenforce > ~/getenforce.out
+  162  stat /mephi-web >> ~/stat.out
+  163  curl http://localhost/ > ~curl.out
+  164  cat ~/getcap.out ~/getenforce.out ~/curl.out
+  165  curl http://localhost
+  166  curl http://localhost > ~/curl.out
+  167  cat ~/getcap.out ~/getenforce.out ~/curl.out
+  168  grep -i context ~/stat.out
+  169  wc -l ~/dnf.out ~/journalctl.out
+  170  ls -la
+  171  journalctl -u nginx -b > ~/journalctl.out
+  172  wc -l ~/dnf.out ~/journalctl.out
+  173  cat stat.out
+  174  history -a
+  175  history > ~/history.out
